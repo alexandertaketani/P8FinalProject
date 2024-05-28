@@ -5,32 +5,40 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerController : MonoBehaviour
 {
-    private float speed = 1.0f;
+    public float speed = 5.0f;
+    private float horizontalInput;
+    public float jumpForce = 5;
     private Rigidbody playerRb;
-    public float jumpForce;
+    public bool isOnGround = true;
 
 
     // Start is called before the first frame update
     void Start()
     {
-
+        playerRb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        MovePlayer();
+        horizontalInput = Input.GetAxis("Horizontal");
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput);
+
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
         {
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isOnGround = false;
         }
     }
 
-    void MovePlayer()
+    private void OnCollisionEnter(Collision collision)
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        playerRb.AddForce(Vector3.right * speed * horizontalInput);
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isOnGround = true;
+        }
     }
-
 }
+
+
