@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 5.0f;
     private float horizontalInput;
     public float jumpForce = 5;
+    private Animator playerAnim;
     private Rigidbody playerRb;
     public bool isOnGround = true;
     public bool gameOver = false;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        playerAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -30,6 +32,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
         {
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            playerAnim.SetTrigger("Jump");
             isOnGround = false;
         }
     }
