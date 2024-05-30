@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 5;
     private Rigidbody playerRb;
     public bool isOnGround = true;
-
+    public bool gameOver = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,10 +20,11 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {      
+        if (Input.GetKey(KeyCode.D))
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-
-        transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput);
+        transform.Translate(Vector3.right * Time.deltaTime * speed);
+    }
 
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
         {
@@ -32,13 +33,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
+    private void OnCollisionEnter(Collision collision){
+        if (collision.gameObject.CompareTag("Ground")) {
             isOnGround = true;
-        }
+        } else if (collision.gameObject.CompareTag("Obstacle")) {
+            gameOver = true;
+            Debug.Log("Game Over");}
+
     }
+
 }
 
 
