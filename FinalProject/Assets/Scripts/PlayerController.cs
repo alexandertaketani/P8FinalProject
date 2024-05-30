@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -38,8 +39,10 @@ public class PlayerController : MonoBehaviour
             isOnGround = true;
         } else if (collision.gameObject.CompareTag("Obstacle")) {
             gameOver = true;
-            Debug.Log("Game Over");}
-
+            Debug.Log("Game Over");
+            SceneManager.LoadSceneAsync(3); } else if (collision.gameObject.CompareTag("Win")) {
+            Debug.Log("Win");
+            SceneManager.LoadSceneAsync(4); }
     }
 
 }
